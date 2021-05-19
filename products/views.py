@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer, ProductSerializerForPatch
 
-# Create your views here.
 @api_view(['GET'])
 def get_products(request,search):
-
+    '''
+        returns all data or data that matches the "search" substring
+    '''
     if request.method == "GET":
         if search:
             products = Product.objects.filter(product_name__startswith=search)
@@ -18,6 +19,7 @@ def get_products(request,search):
 
 @api_view(['GET','DELETE','PATCH'])
 def get_product(request,pk):
+
     try:
         product = Product.objects.get(pk=pk)
     except Product.DoesNotExist:
@@ -44,6 +46,9 @@ def get_product(request,pk):
 
 @api_view(['GET','PATCH'])
 def get_update_product_by_code(request):
+    '''
+        reads or updates product. product_code is passed in the header
+    '''
     product_code = request.META.get('HTTP_PRODUCT_CODE')
 
     try:
@@ -70,7 +75,9 @@ def get_update_product_by_code(request):
 
 @api_view(['GET','POST'])
 def post_product(request):
-
+    '''
+        creates a product.
+    '''
     if request.method == 'POST':
 
         data = {

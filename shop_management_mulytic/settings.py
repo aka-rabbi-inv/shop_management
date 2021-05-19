@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 CORS_ORIGIN_ALLOW_ALL = True 
+# without this line the apis give 403 forbidden responses
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
     ]

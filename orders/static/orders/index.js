@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     history.pushState ({code:-1}, null, 'products');
     
     document.querySelector('#edit-view').style.display = 'none';
+    // edit or delete button click handler
     document.querySelector("#products-view").onclick = (event) => {
         if(event.target.hasAttribute("data-code")){
 
@@ -41,15 +42,17 @@ document.addEventListener('DOMContentLoaded', function() {
             
         }
     };  
+    // add product button handler
     document.querySelector("#create-button").onclick = () => {
         history.pushState ({code:0}, null, 'products');
         create_product();
     };
+    // handler for both add product and edit product
     document.querySelector("#compose-form").onsubmit = (event) => {
 
         var form_data = {};
 
-        //variable to decide weather to edit or create new product
+        //variable to decide weather to edit or add new product
         let edit = false;
 
         // getting the form data
@@ -75,6 +78,10 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(res => {
                 if(res.status===204){
                     location.reload();
+                } else if (res.status===400) {
+                	res.json().then(err => {
+                	    alert(`${Object.keys(err)[0]}: ${err[Object.keys(err)[0]][0]}`);	
+                	});
                 }
             });
         } else{
@@ -88,16 +95,20 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(res => {
                 if(res.status===201){
                     location.reload();
+                } else if (res.status===400) {
+                	res.json().then(err => {
+                	    alert(`${Object.keys(err)[0]}: ${err[Object.keys(err)[0]][0]}`);	
+                	});
                 }
             });
         }
         return false;
     };
+    // navigate to order page
     document.querySelector("#order-page").onclick = () => {
         window.location.href = "order";
     };
 
-    
   });
 
   
@@ -129,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#products-view').style.display = 'none';
     document.querySelector('#create-product').style.display = 'none';
     document.querySelector('#edit-view').style.display = 'flex';
-   
+    // prepopulate the product details
     fetch(`api/v1/product/`, {
         headers:{
             'product-code':code,

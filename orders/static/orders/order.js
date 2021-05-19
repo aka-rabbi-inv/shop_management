@@ -1,6 +1,8 @@
 
 document.addEventListener("DOMContentLoaded", function(){
     var cloned_nodes=[];
+    // Populate the search product field with all products name
+    // **Comaptibility issue: Firefox won't show the dropdown arrow in this field but you can still search the products
     const dropdown = document.querySelectorAll(".search-products");
     dropdown.forEach(node =>{
 
@@ -17,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 })
             });
     });
-
+    // handlers for + - button on scren
     document.querySelector("#more-product").onclick = () => {
         node = document.querySelector('.select-product');
         cloned_node = node.cloneNode(true);
@@ -76,7 +78,6 @@ document.addEventListener("DOMContentLoaded", function(){
                         });
                     } else if (response.status===406){
                         response.json().then(result =>{
-                            // console.log(result['error']);
                             document.querySelector('#error').innerHTML = result['error'];
                             document.querySelector('#error').style.display = 'block';
                         });

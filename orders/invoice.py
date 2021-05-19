@@ -5,12 +5,17 @@ import uuid
 total_amount = 0
 
 def total(price,quantity):
+    ''' helper function to calculate prices '''
     global total_amount
     revenue = float(price)*int(quantity)
     total_amount += revenue
     return revenue
 
 def create_pdf(qrcode, table_data):
+    ''' 
+        qrcode -> the qrcode image filename
+        table_data -> list of product details
+    '''
     from reportlab.lib.enums import TA_JUSTIFY
     from reportlab.lib.pagesizes import A4, portrait
 
@@ -49,6 +54,9 @@ def create_pdf(qrcode, table_data):
     return doc.filename
 
 def product(data):
+    '''
+        data is a dict containing customer information and a list with key `product_detail`. we look at each product and append product information to the table_data list.
+    '''
     global total_amount
 
     table_data = [["Sl. No", "Item", "QTY", "Unit Price", "Total"]]
@@ -59,6 +67,7 @@ def product(data):
     for sl,item in enumerate(data['product_detail']):
         table_data.append([sl+1, item["product_name"], item["quantity"], item["unit_price"],total(item["unit_price"],item["quantity"])])
 
+    # last row for showing the sum of all totals
     table_data.append(['','','','Total Amount:',total_amount])
     total_amount = 0
     return create_pdf(img_name, table_data)

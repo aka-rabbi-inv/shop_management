@@ -2,9 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 
 class Product(models.Model):
-    #id = models.PositiveSmallIntegerField(primary_key=True)
     id = models.AutoField(primary_key=True)
-    # mess_id = models.PositiveIntegerField()
     product_code = models.IntegerField(unique=True)
     product_name = models.CharField(max_length=50)
     product_category = models.CharField(max_length=20) 
