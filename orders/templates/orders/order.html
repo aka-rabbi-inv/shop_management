@@ -1,0 +1,49 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Order</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'orders/orders.css' %}">
+        <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.min.js"></script>
+        <script src="{% static 'orders/order.js' %}" type="application/javascript"></script>
+    </head>
+    <body>
+        <a href="{% url 'index' %}" style="text-decoration: none;color:black"><h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;display: flex;justify-content: center;background-color: lightgray;margin: 0px;">Order Management Suite</h1></a>
+        <div class="top">
+           
+        </div>
+        <form id="order-form" style="margin-left: 10px;">
+            {% csrf_token %}
+            Name: <input id="name" name="name" required>
+
+            Phone: <input id="phone" name="phone" required>
+
+            Email: <input type="email" id="email" name="email" required>
+            <p style="display: flex; justify-content: space-evenly;">Choose product from the list:
+                <img src="{% static 'orders/add.svg' %}" alt="add" style="height: 15px;width: 15px;align-self: center;margin-right: 4px;" id="more-product" data-toggle="tooltip" title="add another product">
+                <img src="{% static 'orders/remove.svg' %}" alt="add" style="height: 15px;width: 15px;align-self: center;" id="less-product" data-toggle="tooltip" title="remove a product">
+            </p>
+            
+            <div id="all-products">
+                <div class="select-product" style="display: flex;">
+                    <input list="products" class="search-products" placeholder="search product">
+                    <datalist id="products" class="datalist">
+
+                    </datalist>
+                    <input type="number" min="1" class="quantity" placeholder="quantity">
+                    
+                </div>
+            </div>
+
+
+
+            <input type="submit" class="btn btn-primary" id="order" value="Order"/>
+
+            <div class="alert alert-danger" role="alert" id="error" style="display: none;"></div>
+        </form>
+    </body>
+</html>

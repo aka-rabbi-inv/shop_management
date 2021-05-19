@@ -1,0 +1,29 @@
+.top{
+    padding: 21px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: lightgrey;
+}
+
+#order-form{
+    display: flex;
+    flex-direction: column;
+    width: 24%;
+    margin: 10px 0px 10px 0px;
+}
+#order-form input{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.select-product > * {
+    margin-right: 10px;
+}
+
+.quantity {
+    margin-left: 10px;
+    width: auto;
+}
+#more-product:hover{
+    cursor: pointer;
+}
