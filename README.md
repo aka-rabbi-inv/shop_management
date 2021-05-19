@@ -42,6 +42,7 @@ An example screenshot of the invoice is given below-
 You can check out the customer orders afterwards by visiting the admin page at  http://IP:8000/admin
 user- aka
 pass- aaaa0000
+You can check out the tests at products/tests/test_views.py.
   
 \* Limitation- currently the invoice pdfs stack up on the project root folder. In future i might add a page to delete/view the pdfs.
-\* You can check out the tests at products/tests/test_views.py.
+ 
