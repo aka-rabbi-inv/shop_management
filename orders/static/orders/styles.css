@@ -1,0 +1,42 @@
+body{
+    padding: 0px 0px 20px 0px;
+}
+.top{
+    padding: 5px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: lightgrey;
+}
+.top button {
+    margin-left: 7px;
+    padding: 10px;
+    background-color: lightsteelblue;
+    border:0;
+}
+
+#product-div{
+    display: flex;
+    justify-content: space-between;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 7px 0px 7px 0px;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+#edit-view{
+    display: flex;
+    flex-direction: column;
+}
+#edit-view input{
+    margin-bottom: 17px;
+
+}
+#compose-form{
+    display: flex;
+    flex-direction: column;
+    width: 34%;
+}
+img:hover{
+    cursor: pointer;
+}

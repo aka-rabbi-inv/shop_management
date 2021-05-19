@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Order</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'orders/styles.css' %}">
+        <script src="{% static 'orders/index.js' %}" type="application/javascript"></script>
+    </head>
+    <body>
+        <a href="{% url 'index' %}" style="text-decoration: none;color:black;"><h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;display: flex;justify-content: center;background-color: lightgray;margin: 0px;">Order Management Suite</h1></a>
+        <div class="top">
+            <div id="create-product">
+                <button id="create-button">Add Product</button>
+            </div>
+            <div id="order-view">
+                <button id="order-page">New Order</button>
+            </div>
+        </div>
+        
+        <div id="products-view">
+            {% for product in products %}
+            <div id='product-div'>
+                <div>{{ product.product_name|upper }}</div>
+                <div>
+                    <img src="{% static 'orders/edit.png' %}" alt="edit" name="edit" data-code="{{product.product_code}}" style="height: 15px;width: 15px;align-self: center;margin-right: 4px;" >
+                    <img src="{% static 'orders/delete.png' %}" alt="delete" name="delete" data-code="{{product.product_code}}" data-pk="{{product.id}}" style="height: 15px;width: 15px;align-self: center;" >
+                </div>
+                
+            </div>        
+            {% endfor %}
+        </div>
+
+        <div id="edit-view" style="margin-left: 10px;">
+            <h3>Product details</h3>
+            <form id="compose-form">
+                {% csrf_token %}
+                <label for="product_code"></label>
+                Product Code: <input disabled type="text" name="product_code" required>
+                <label for="product_name"></label>
+                Name: <input disabled type="text" name="product_name" required>
+                <label for="product_category"></label>
+                Category: <input disabled type="text" name="product_category">
+                <label for="unit_price"></label>
+                Price: <input type="number" name="unit_price"  required>
+                <label for="current_stock"></label>
+                Current Stock: <input type="number" min="1" name="current_stock" required>
+
+                <input id="submit-form" type="submit" value="Confirm">
+            </form>
+        </div>
+
+        
+    </body>
+</html>
