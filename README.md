@@ -1,8 +1,11 @@
 ## How to Install
 
-Python 3.8 and pipenv:
+You need Python 3.8 and pipenv:
 ```bash
-$ sudo apt install pipenv
+$ sudo apt install pipenv 
+#linux
+$ pip install pipenv
+#windows
 ```
 inside the project folder run-
 ```bash
