@@ -1,43 +1,37 @@
 ## How to Install
 
-You need Python 3.8 and pipenv:
-```bash
-$ sudo apt install pipenv 
-#linux
-$ pip install pipenv
-#windows
-```
+You need Python 3.8 and pipenv
+
 inside the project folder run-
 ```bash
-$ pipenv shell
-$ pipenv install --ignore-pipfile
-# will install all required packages from pipfile.lock
+pipenv shell
+pipenv install
 ```
 
 ## start server
 Migrate database using
 ```bash
-$ python manage.py migrate
+python manage.py migrate
 ```
-if you want to test on a computer connected on the same network navigate to settings.py file and rewrite this line
+You might need to add your IP in the allowed hosts list in `settings.py` if you're having trouble with the connection 
 ```python
 ALLOWED_HOSTS = ['127.0.0.1','<YOUR HOST PC IP HERE>']
 ```
 start the server using 
 ```bash
-$ python manage.py runserver 0.0.0.0:8000
+python manage.py runserver 0.0.0.0:8000
 ```
-otherwise you can just test on localhost by 
+you can just test on localhost by 
 ```bash
-$ python manage.py runserver
+python manage.py runserver
 ```
 
 ## Usage
 
-Start by navigating to http://IP:8000 (replace IP with your ip or localhost). You need to add some products.
+Start by navigating to http://<host>:8000 (replace `host` with your ip or localhost). You need to add some products.
 Navigate to Add Product by clicking the button. You can't put negative values in price and current stock as you will recieve a 400 status from the api. Try creating some products by filling all the fields.
 
-You can always go to home page by clicking on the header text.
+You can always go to home page by clicking on the header.
 
 You can see a list of products that you have created. You can edit or delete these products clicking the respective icons. The edit form will only allow you to update the price and current stock. The delete button will require a confirmation to delete the product.
   
@@ -46,12 +40,14 @@ An example screenshot of the invoice is given below-
   
   
 <img height="600" src="https://raw.githubusercontent.com/aka-rabbi/shop_management/main/invoice.png">
+
+## Admin Panel
 create a superuser for your project using
 
 ```bash
-$ python manage.py createsuperuser
+python manage.py createsuperuser
 ```
-You can check out the customer orders afterwards by visiting the admin page at  http://IP:8000/admin and providing the superuser id and password.
+You can check out the customer orders afterwards by visiting the admin page at  http://<host>:8000/admin and providing the superuser id and password.
 
 
 You can also check out the tests at products/tests/test_views.py.
