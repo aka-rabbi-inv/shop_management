@@ -43,10 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };  
     // add product button handler
-    document.querySelector("#create-button").onclick = () => {
-        history.pushState ({code:0}, null, 'products');
-        create_product();
-    };
+    if (document.querySelectorAll("#create-button").length === 1){
+        document.querySelector("#create-button").onclick = () => {
+            history.pushState ({code:0}, null, 'products');
+            create_product();
+        };
+    }
     // handler for both add product and edit product
     document.querySelector("#compose-form").onsubmit = (event) => {
 
@@ -82,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 	res.json().then(err => {
                 	    alert(`${Object.keys(err)[0]}: ${err[Object.keys(err)[0]][0]}`);	
                 	});
+                } else if (res.status===403){
+                    alert('This user does not have the required permission!')
                 }
             });
         } else{
