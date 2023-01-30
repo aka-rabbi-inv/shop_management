@@ -1,14 +1,12 @@
-.top{
-    padding: 21px;
-    display: flex;
-    justify-content: flex-end;
-    background-color: lightgrey;
+body{
+    padding: 0px 0px 20px 0px;
+    background-color: #F6F3E8;
 }
 
 #order-form{
     display: flex;
     flex-direction: column;
-    width: 24%;
+    width: 34%;
     margin: 10px 0px 10px 0px;
 }
 #order-form input{
@@ -24,6 +22,22 @@
     margin-left: 10px;
     width: auto;
 }
-#more-product:hover{
+
+.add-or-remove{
     cursor: pointer;
+}
+
+.top{
+    padding: 5px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+.top button {
+    padding: 10px;
+    background-color: rgb(251, 179, 96);
+    color: white;
+    border:0;
+    border-radius: 5%;
+    font-size: 0.9em;
 }

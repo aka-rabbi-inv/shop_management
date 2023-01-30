@@ -1,27 +1,28 @@
 body{
     padding: 0px 0px 20px 0px;
+    background-color: #F6F3E8;
 }
 .top{
     padding: 5px;
     display: flex;
     justify-content: flex-end;
-    background-color: lightgrey;
+    gap: 1rem;
 }
 .top button {
-    margin-left: 7px;
     padding: 10px;
-    background-color: lightsteelblue;
+    background-color: rgb(251, 179, 96);
+    color: white;
     border:0;
+    border-radius: 5%;
+    font-size: 0.9em;
 }
 
-#product-div{
+.product-div{
     display: flex;
     justify-content: space-between;
-    font-weight: 400;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: white;
     margin: 7px 0px 7px 0px;
     padding: 10px;
-    border: 1px solid black;
 }
 
 #edit-view{
@@ -39,4 +40,18 @@ body{
 }
 img:hover{
     cursor: pointer;
+}
+
+#products-view{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.product-handlers > img{
+    opacity: .2;
+}
+
+.product-handlers > img:hover{
+    transition-duration: 0.65s;
+    opacity: 1;
 }

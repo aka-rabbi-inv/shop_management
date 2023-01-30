@@ -2,48 +2,86 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <title>Order</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'orders/orders.css' %}">
-        <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.min.js"></script>
-        <script src="{% static 'orders/order.js' %}" type="application/javascript"></script>
-    </head>
-    <body>
-        <a href="{% url 'index' %}" style="text-decoration: none;color:black"><h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;display: flex;justify-content: center;background-color: lightgray;margin: 0px;">Order Management Suite</h1></a>
-        <div class="top">
-           
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Order</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'orders/orders.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.min.js"></script>
+    <script src="{% static 'orders/order.js' %}" type="application/javascript"></script>
+</head>
+
+<body>
+    <div style="display: flex; gap: 0.5rem; justify-content:flex-end;background-color: white;padding-right: 25px;">
+        <a style="color: rgb(251, 179, 96);" href="/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor"
+                class="bi bi-house-door-fill" viewBox="0 0 19 19">
+                <path
+                    d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
+            </svg>
+        </a>
+        <strong>Shop Management |</strong>
+        {% if user.is_authenticated %}
+        Hi {{user.username}}!
+        <a class="button is-primary" href="/accounts/logout">Logout</a>
+        {% else %}
+        <a class="button is-primary" href="/login/auth0">Login</a>
+        {% endif %}
+    </div>
+
+    <div class="top">
+        <div id="order-view">
+            <button id="order-page">New Order</button>
         </div>
-        <form id="order-form" style="margin-left: 10px;">
-            {% csrf_token %}
-            Name: <input id="name" name="name" required>
+        <div id="create-product">
+            {% if perms.products.see_product_create_form %}
+            <button id="create-button">Add Product</button>
+            {% endif %}
+        </div>
+    </div>
 
-            Phone: <input id="phone" name="phone" required>
+    <form id="order-form" style="margin-left: 10px;">
+        {% csrf_token %}
+        <h3>Please fill in the order details</h3><br>
+        <div class="add-or-remove" style="display: flex; justify-content: left; gap: 2rem;"> Add or remove a product:
+            <img src="{% static 'orders/add.svg' %}" alt="add"
+                style="height: 15px;width: 15px;align-self: center;margin-right: 4px;" id="more-product"
+                data-toggle="tooltip" title="add another product">
+            <img src="{% static 'orders/remove.svg' %}" alt="add" style="height: 15px;width: 15px;align-self: center;"
+                id="less-product" data-toggle="tooltip" title="remove a product">
+        </div>
+        <div id="all-products">
+            <div class="select-product" style="display: flex;">
+                <input list="products" class="search-products" placeholder="search product">
+                <datalist id="products" class="datalist">
 
-            Email: <input type="email" id="email" name="email" required>
-            <p style="display: flex; justify-content: space-evenly;">Choose product from the list:
-                <img src="{% static 'orders/add.svg' %}" alt="add" style="height: 15px;width: 15px;align-self: center;margin-right: 4px;" id="more-product" data-toggle="tooltip" title="add another product">
-                <img src="{% static 'orders/remove.svg' %}" alt="add" style="height: 15px;width: 15px;align-self: center;" id="less-product" data-toggle="tooltip" title="remove a product">
-            </p>
-            
-            <div id="all-products">
-                <div class="select-product" style="display: flex;">
-                    <input list="products" class="search-products" placeholder="search product">
-                    <datalist id="products" class="datalist">
+                </datalist>
+                <input type="number" min="1" class="quantity" placeholder="quantity">
 
-                    </datalist>
-                    <input type="number" min="1" class="quantity" placeholder="quantity">
-                    
-                </div>
             </div>
+        </div>
+        Name: <input id="name" name="name" required>
+
+        Phone: <input id="phone" name="phone" required>
+
+        Email: <input type="email" id="email" name="email" required>
 
 
 
-            <input type="submit" class="btn btn-primary" id="order" value="Order"/>
+        <input type="submit" class="btn btn-primary" id="order" value="Order" />
+        <a href="/" class="btn btn-danger">Cancel</a>
 
-            <div class="alert alert-danger" role="alert" id="error" style="display: none;"></div>
-        </form>
-    </body>
+        <div class="alert alert-danger" role="alert" id="error" style="display: none;"></div>
+    </form>
+
+    <div class="text-center p-2"
+        style="background-color: rgba(0, 0, 0, 0.05); text-align:justify;position: fixed;bottom: 0;left: 0;">
+        © 2023 Copyright:
+        <a class="text-reset fw-bold" href="https://opensource.org/licenses/MIT">MIT-License</a>
+    </div>
+</body>
+
 </html>
