@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from products.models import Product, CustomerOrder
+from orders.models import Order
+from products.models import Product
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
@@ -7,8 +8,9 @@ from orders import invoice
 import os
 from django.http import FileResponse
 from django.http import JsonResponse
-from django.urls import reverse
 from shop_management.settings import BASE_DIR
+from django.contrib.auth.decorators import login_required, permission_required
+
 
 # Create your views here.
 
@@ -19,6 +21,8 @@ class OutofStockError(Exception):
         return "There is not enough stock!"
 
 
+@login_required
+@permission_required("orders.add_order", raise_exception=True)
 def order_page(request):
     """
     Renders order page.
@@ -26,6 +30,7 @@ def order_page(request):
     return render(request, "orders/order.html")
 
 
+# @login_required
 def index(request):
     products = Product.objects.all()
     return render(request, "orders/index.html", {"products": products})
@@ -73,7 +78,7 @@ def order_product(request):
             product = Product.objects.get(product_code=code)
             product.current_stock = product.current_stock - int(quant)
             product.save()
-            CustomerOrder.objects.create(
+            Order.objects.create(
                 products=product,
                 name=data["name"],
                 phone=data["phone"],
@@ -95,7 +100,6 @@ def invoice_pdf(request, filename):
     file_path = os.path.join(BASE_DIR, filename)
     pdf = open(file_path, "rb")
 
-    response = FileResponse(pdf, content_type="application/pdf")
-    response["Content-Disposition"] = 'filename="invoice.pdf"'
+    response = FileResponse(pdf, content_type="application/pdf", filename="invoice.pdf")
 
     return response
