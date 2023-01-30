@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", function(){
     // **Comaptibility issue: Firefox won't show the dropdown arrow in this field but you can still search the products
     const dropdown = document.querySelectorAll(".search-products");
     dropdown.forEach(node =>{
-
             fetch(`api/v1/products/`)
             .then(response => response.json())
             .then(products => {
@@ -19,15 +18,16 @@ document.addEventListener("DOMContentLoaded", function(){
                 })
             });
     });
+
     // handlers for + - button on scren
     document.querySelector("#more-product").onclick = () => {
-        node = document.querySelector('.select-product');
-        cloned_node = node.cloneNode(true);
+        let node = document.querySelector('.select-product');
+        let cloned_node = node.cloneNode(true);
         cloned_nodes.push(cloned_node);
         document.querySelector('#all-products').appendChild(cloned_node);
     };
     document.querySelector("#less-product").onclick = () => {
-        node_to_remove = cloned_nodes.pop();
+        let node_to_remove = cloned_nodes.pop();
         node_to_remove.remove();
     };
 
@@ -74,7 +74,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 .then(response => {
                     if (response.status===201){
                         response.json().then(result =>{
-                            window.location.href = `invoice/${result['filename']}`;
+                            window.open(`invoice/${result['filename']}`, '_blank');
+                            window.location.href = "/";
                         });
                     } else if (response.status===406){
                         response.json().then(result =>{
