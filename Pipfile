@@ -9,6 +9,8 @@ djangorestframework = "*"
 django-cors-headers = "*"
 qrcode = "*"
 reportlab = "*"
+python-jose = "*"
+social-auth-app-django = "*"
 
 [dev-packages]
 

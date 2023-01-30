@@ -178,3 +178,6 @@ entire idea folder.
 # End of https://www.toptal.com/developers/gitignore/api/python
 
 db.sqlite3
+settings.py
+__pycache__/
+.DS_STORE
