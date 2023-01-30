@@ -1,11 +1,34 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import AbstractUser
+
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import Group
+
+
+class User(AbstractUser):
+    pass
+
+
+@receiver(post_save, sender=User)
+def add_to_default_group_on_create(sender, instance, created, **kwargs):
+    if created:
+        my_group = Group.objects.get(name="Employee")
+        my_group.user_set.add(instance)
+
 
 class Product(models.Model):
+    class Meta:
+        permissions = (
+            ("see_product_create_form", "Can see the form to create new product"),
+        )
+
     id = models.AutoField(primary_key=True)
     product_code = models.IntegerField(unique=True)
     product_name = models.CharField(max_length=50)
-    product_category = models.CharField(max_length=20) 
+    product_category = models.CharField(max_length=20)
     unit_price = models.FloatField(validators=[MinValueValidator(0)])
     current_stock = models.IntegerField(validators=[MinValueValidator(0)])
     row_status = models.PositiveIntegerField()
@@ -14,17 +37,4 @@ class Product(models.Model):
     deleted_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-       return self.product_name
-    
-class CustomerOrder(models.Model):
-    products = models.ForeignKey(Product, on_delete=models.CASCADE)
-    name = models.TextField()
-    phone = models.PositiveIntegerField(blank=True, null=True)
-    email = models.EmailField(max_length=200,blank=True, null=True)
-    quantity = models.PositiveIntegerField()
-    row_status = models.PositiveIntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    deleted_at = models.DateTimeField(blank=True, null=True)
-    
-        
+        return self.product_name
