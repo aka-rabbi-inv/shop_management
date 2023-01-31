@@ -11,6 +11,7 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'orders/styles.css' %}">
     <script src="{% static 'orders/index.js' %}" type="application/javascript"></script>
+    {{ access_token|json_script:'access_token' }}
 </head>
 
 <body>
@@ -25,7 +26,7 @@
         <strong>Shop Management |</strong>
         {% if user.is_authenticated %}
         Hi {{user.username}}!
-        <a class="button is-primary" href="/accounts/logout">Logout</a>
+        <a class="button is-primary" href="accounts/logout">Logout</a>
         {% else %}
         <a class="button is-primary" href="/login/auth0">Login</a>
         {% endif %}

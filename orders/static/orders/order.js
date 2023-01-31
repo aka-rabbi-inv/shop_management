@@ -5,8 +5,18 @@ document.addEventListener("DOMContentLoaded", function(){
     // **Comaptibility issue: Firefox won't show the dropdown arrow in this field but you can still search the products
     const dropdown = document.querySelectorAll(".search-products");
     dropdown.forEach(node =>{
-            fetch(`api/v1/products/`)
-            .then(response => response.json())
+            fetch(`api/v1/products/`, {
+                headers: {
+                    'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`,
+                }
+            })
+            .then(response => {
+                if(response.status===401){
+                    alert('Token invalid or expired!');
+                    throw new Error("Token invalid or expired");
+                }
+                return response.json();
+            })
             .then(products => {
                 products.forEach(product => {
                     const prod = document.createElement('option');
@@ -68,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 method:'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`,
                 },
                 body:JSON.stringify(form_data)
                 })
@@ -82,6 +93,8 @@ document.addEventListener("DOMContentLoaded", function(){
                             document.querySelector('#error').innerHTML = result['error'];
                             document.querySelector('#error').style.display = 'block';
                         });
+                    } else if (res.status===401){
+                        alert('Token invalid or expired!')
                     }
                 });
         } catch(err) {
