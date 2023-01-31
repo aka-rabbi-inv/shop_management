@@ -11,4 +11,5 @@ urlpatterns = [
     ),
     path("", views.index, name="index"),
     path("products", views.index, name="index"),
+    path("landing-page", views.landing_page, name="landing_page"),
 ]
