@@ -25,11 +25,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(function() {
                     if (confirm(`Are you sure you want to delete the product?`)===true){
                         fetch(`api/v1/product/${event.target.dataset.pk}`, {
-                            method:'DELETE'
+                            method:'DELETE',
+                            headers: {
+                                'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`,
+                            }
                         })
                         .then(res => {
                             if(res.status===204){
                                 location.reload();
+                            } else if (res.status===401){
+                                alert('Token invalid or expired!')
                             }
                         });
                     }else{
@@ -73,7 +78,8 @@ document.addEventListener('DOMContentLoaded', function() {
             method:'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                'product-code':form_data['product_code']
+                'product-code':form_data['product_code'],
+                'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`
             },
             body:JSON.stringify(form_data)
             })
@@ -84,8 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 	res.json().then(err => {
                 	    alert(`${Object.keys(err)[0]}: ${err[Object.keys(err)[0]][0]}`);	
                 	});
-                } else if (res.status===403){
-                    alert('This user does not have the required permission!')
+                } else if (res.status===401){
+                    alert('Token invalid or expired!')
                 }
             });
         } else{
@@ -103,6 +109,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 	res.json().then(err => {
                 	    alert(`${Object.keys(err)[0]}: ${err[Object.keys(err)[0]][0]}`);	
                 	});
+                } else if (res.status===401){
+                    alert('Token invalid or expired!')
                 }
             });
         }
@@ -148,9 +156,16 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(`api/v1/product/`, {
         headers:{
             'product-code':code,
+            'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`,
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if(response.status===401){
+            alert('Token invalid or expired!');
+            throw new Error("Token invalid or expired");
+        }
+        return response.json();
+    })
     .then(
         product => {
             document.querySelectorAll('input').forEach(data => {
