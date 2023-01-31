@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from rest_framework.authtoken.models import Token
 
 
@@ -16,8 +16,10 @@ class User(AbstractUser):
 @receiver(post_save, sender=User)
 def initiate_user(sender, instance, created, **kwargs):
     if created:
-        my_group = Group.objects.get(name="Employee")
-        my_group.user_set.add(instance)
+        employee_group, gruop_created = Group.objects.get_or_create(name="Employee")
+        if gruop_created:
+            employee_group.permissions.add(Permission.objects.get(name="Can add order"))
+        employee_group.user_set.add(instance)
         Token.objects.create(user=instance)
 
 
