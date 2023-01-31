@@ -3,9 +3,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer, ProductSerializerForPatch
+from django.contrib.auth.decorators import login_required
 
 
 @api_view(["GET"])
+@login_required
 def get_products(request, search):
     """
     returns all data or data that matches the "search" substring
@@ -20,6 +22,7 @@ def get_products(request, search):
 
 
 @api_view(["GET", "DELETE", "PATCH"])
+@login_required
 def get_product(request, pk):
 
     try:
@@ -47,8 +50,7 @@ def get_product(request, pk):
 
 
 @api_view(["GET", "PATCH"])
-# @permission_required("orders.add_order")
-# @permission_classes((IsAuthenticated, DjangoModelPermissions))
+@login_required
 def get_update_product_by_code(request):
     """
     reads or updates product. product_code is passed in the header
@@ -76,6 +78,7 @@ def get_update_product_by_code(request):
 
 
 @api_view(["GET", "POST"])
+@login_required
 def post_product(request):
     """
     creates a product.
