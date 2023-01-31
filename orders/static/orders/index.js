@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json',
                 'product-code':form_data['product_code'],
-                'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`
+                'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`,
             },
             body:JSON.stringify(form_data)
             })
@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch('api/v1/product/create', {
                 method:'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${JSON.parse(document.getElementById('access_token').textContent)}`,
                 },
                 body:JSON.stringify(form_data)
             })
