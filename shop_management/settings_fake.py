@@ -29,10 +29,10 @@ ALLOWED_HOSTS = []
 CORS_ORIGIN_ALLOW_ALL = True
 # without this line the apis give 403 forbidden responses
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [],
-    # "DEFAULT_PERMISSION_CLASSES": [
-    #     "rest_framework.permissions.IsAuthenticated",
-    # ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 
 # Application definition
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "products",
     "orders",
     "social_django",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE = [
