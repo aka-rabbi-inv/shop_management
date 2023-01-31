@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Group
+from rest_framework.authtoken.models import Token
 
 
 class User(AbstractUser):
@@ -13,10 +14,11 @@ class User(AbstractUser):
 
 
 @receiver(post_save, sender=User)
-def add_to_default_group_on_create(sender, instance, created, **kwargs):
+def initiate_user(sender, instance, created, **kwargs):
     if created:
         my_group = Group.objects.get(name="Employee")
         my_group.user_set.add(instance)
+        Token.objects.create(user=instance)
 
 
 class Product(models.Model):
