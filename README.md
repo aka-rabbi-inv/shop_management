@@ -19,11 +19,9 @@ and add them to
 
 ```python
 # Auth0 settings
-SOCIAL_AUTH_TRAILING_SLASH = False  # Remove trailing slash from routes
 SOCIAL_AUTH_AUTH0_DOMAIN = "fake"
 SOCIAL_AUTH_AUTH0_KEY = "fake"
 SOCIAL_AUTH_AUTH0_SECRET = "fake"
-SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
 ```
 
 in `settings.py`
